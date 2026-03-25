@@ -3,7 +3,6 @@
  * contribution to the ratings dataset.
  */
 import { User } from 'lucide-react'
-import { Card } from '../../shared/components/ui/Card'
 import { Badge } from '../../shared/components/ui/Badge'
 import type { UserDto } from '../../types'
 

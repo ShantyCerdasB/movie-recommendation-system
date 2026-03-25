@@ -79,7 +79,7 @@ export function RecommendationCard({ recommendation, rank }: RecommendationCardP
             <p className="text-xs text-slate-400 italic leading-relaxed">
               {(() => {
                 const m = explanation.match(/from (\d+) similar users \(avg\. similarity: ([\d.]+)\)/)
-                if (m) return t('recommendation_explanation', { count: m[1], avg: m[2] })
+                if (m) return t('recommendation_explanation', { count: Number(m[1]), avg: m[2] })
                 return explanation
               })()}
             </p>

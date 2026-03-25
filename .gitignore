@@ -42,6 +42,12 @@ pnpm-debug.log*
 .env.local
 .env.*.local
 
+# Terraform environment files
+infra/env/*.tfvars
+infra/env/*.auto.tfvars
+!infra/env/*.tfvars.example
+!infra/env/*.auto.tfvars.example
+
 # ── OS ─────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db

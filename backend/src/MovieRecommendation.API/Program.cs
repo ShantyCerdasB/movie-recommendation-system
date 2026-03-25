@@ -26,6 +26,7 @@ using MovieRecommendation.Infrastructure.Seed;
 /// </remarks>
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocumentation();
@@ -37,5 +38,10 @@ var app = builder.Build();
 app.UseSwaggerDocumentation();
 app.UseCors("AllowAll");
 app.UseAuthorization();
+app.MapGet("/health", () => Results.Ok(new
+{
+    status = "ok",
+    service = "movie-recommendation-api"
+}));
 app.MapControllers();
 app.Run();

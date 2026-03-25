@@ -2,7 +2,7 @@
  * @fileoverview TanStack Query hooks for the ratings and similarity matrices.
  */
 import { useQuery, type UseQueryResult } from '@tanstack/react-query'
-import { fetchRatingsMatrix, fetchSimilarityMatrix } from '../services/matrixService'
+import { fetchRatingMatrix, fetchSimilarityMatrix } from '../services/matrixService'
 import type { MatrixDto, SimilarityDto } from '../../types'
 
 /**
@@ -13,7 +13,7 @@ import type { MatrixDto, SimilarityDto } from '../../types'
 export function useRatingsMatrix(): UseQueryResult<MatrixDto, Error> {
   return useQuery({
     queryKey: ['matrix', 'ratings'],
-    queryFn: fetchRatingsMatrix,
+    queryFn: fetchRatingMatrix,
   })
 }
 

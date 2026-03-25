@@ -157,3 +157,19 @@ Each feature contains its own `pages/`, `components/`, `hooks/`, `services/`, an
 - **Evaluation metrics**: RMSE, Precision@K, Recall@K
 - **Real dataset import**: integrate MovieLens or TMDB dataset
 - **Authentication**: user login and session-based personalization
+
+---
+
+## AWS Deployment
+
+The repository now includes an `infra/` directory with Terraform for:
+
+- S3 frontend hosting
+- Cloudflare subdomain routing with a Worker-based SPA fallback
+- API Gateway HTTP API
+- Lambda container deployment for the .NET API
+- GitHub Actions deployment through AWS OIDC
+
+The frontend can use the default API Gateway endpoint in production through `VITE_API_URL`.
+
+See `infra/README.md` for environment configuration, Terraform usage, and GitHub deployment setup.

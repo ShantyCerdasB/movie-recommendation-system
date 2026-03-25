@@ -1,0 +1,13 @@
+project                     = "movie-recommendation"
+env                         = "prod"
+owner                       = "shantydev"
+cost_center                 = "engineering"
+domain_name                 = "xyzhub.pw"
+subdomain                   = "movies"
+use_cloudflare              = true
+cloudflare_zone_id          = "your-zone-id"
+enable_cloudflare_worker    = true
+cloudflare_account_id       = "your-account-id"
+github_repository           = "ShantyCerdasB/movie-recommendation-system"
+create_github_oidc_provider = false
+github_oidc_provider_arn    = "arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com"
