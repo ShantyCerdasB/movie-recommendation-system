@@ -2,8 +2,10 @@
  * @fileoverview Card component representing a single movie in the catalog grid.
  */
 import { ImageOff } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { GenreBadge } from './GenreBadge'
 import { formatYear } from '../../shared/utils/formatters'
+import { localizeMovieDescription, localizeMovieTitle } from '../../shared/utils'
 import type { MovieDto } from '../../types'
 
 /** Props accepted by the {@link MovieCard} component. */
@@ -21,6 +23,14 @@ interface MovieCardProps {
  * @param props - {@link MovieCardProps}
  */
 export function MovieCard({ movie }: MovieCardProps) {
+  const { i18n } = useTranslation()
+  const language = i18n.resolvedLanguage ?? i18n.language
+  const localizedTitle = localizeMovieTitle(movie.title, language)
+  const localizedDescription = localizeMovieDescription(movie.title, movie.description, language)
+  const posterAlt = language.startsWith('es')
+    ? `Poster de ${localizedTitle}`
+    : `${localizedTitle} poster`
+
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.display = 'none'
     const placeholder = e.currentTarget.nextElementSibling as HTMLElement | null
@@ -35,7 +45,7 @@ export function MovieCard({ movie }: MovieCardProps) {
           <>
             <img
               src={movie.posterUrl}
-              alt={`${movie.title} poster`}
+              alt={posterAlt}
               onError={handleImageError}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
@@ -56,7 +66,7 @@ export function MovieCard({ movie }: MovieCardProps) {
       <div className="flex flex-col flex-1 p-4 gap-2">
         <div className="flex items-start justify-between gap-2">
           <h3 className="text-sm font-semibold text-slate-100 leading-snug line-clamp-2">
-            {movie.title}
+            {localizedTitle}
           </h3>
           <span className="text-xs text-slate-500 shrink-0 mt-0.5">
             {formatYear(movie.releaseYear)}
@@ -65,9 +75,9 @@ export function MovieCard({ movie }: MovieCardProps) {
 
         <GenreBadge genre={movie.genre} />
 
-        {movie.description && (
+        {localizedDescription && (
           <p className="text-xs text-slate-400 leading-relaxed line-clamp-3 mt-1">
-            {movie.description}
+            {localizedDescription}
           </p>
         )}
       </div>

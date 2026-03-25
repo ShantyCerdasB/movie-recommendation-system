@@ -1,28 +1,52 @@
 /**
  * @fileoverview Matrix View feature page.
- * @description Renders the raw user–movie ratings matrix and the derived user–user
+ * @description Renders the raw user-movie ratings matrix and the derived user-user
  * cosine similarity matrix, toggled via tab controls.
  */
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { PageHeader } from '../../shared/components/PageHeader'
 import { LoadingSpinner } from '../../shared/components/LoadingSpinner'
+import { PageHeader } from '../../shared/components/PageHeader'
 import { Card } from '../../shared/components/ui/Card'
-import { useRatingMatrix } from '../hooks/useRatingMatrix'
-import { useSimilarityMatrix } from '../hooks/useSimilarityMatrix'
 import { MatrixControls } from '../components/MatrixControls'
+import type { MatrixTab } from '../components/MatrixControls'
+import { MatrixLegend } from '../components/MatrixLegend'
 import { RatingMatrixTable } from '../components/RatingMatrixTable'
 import { SimilarityMatrixTable } from '../components/SimilarityMatrixTable'
-import { MatrixLegend } from '../components/MatrixLegend'
-import type { MatrixTab } from '../components/MatrixControls'
+import { useRatingMatrix } from '../hooks/useRatingMatrix'
+import { useSimilarityMatrix } from '../hooks/useSimilarityMatrix'
 
 /**
  * Full-page view showing either the ratings matrix or the similarity matrix,
  * selectable via tab controls. Each view is independently fetched and cached.
  */
 export default function MatrixViewPage() {
-  const { t } = useTranslation('pages')
+  const { t, i18n } = useTranslation('pages')
   const [activeTab, setActiveTab] = useState<MatrixTab>('ratings')
+  const isSpanish = (i18n.resolvedLanguage ?? i18n.language).startsWith('es')
+  const copy = isSpanish
+    ? {
+        loadingRatings: 'Cargando matriz de valoraciones...',
+        loadingSimilarity: 'Cargando matriz de similitud...',
+        errorRatings: 'Error al cargar la matriz de valoraciones.',
+        errorSimilarity: 'Error al cargar la matriz de similitud.',
+        similarityTitle: 'Acerca de la matriz de similitud',
+        similarityDescription: 'Como interpretar los valores de esta tabla',
+        similarityBody:
+          'Cada celda S[i][j] contiene la similitud coseno entre el usuario i y el usuario j, calculada a partir de sus respectivos vectores de valoracion. Los valores van de 0.00 (sin afinidad de gustos) a 1.00 (perfil de gustos identico). La diagonal siempre es 1.00 porque cada usuario es perfectamente similar a si mismo. Las celdas indigo mas oscuras indican una similitud mayor y aportan mas peso en el paso de prediccion del filtrado colaborativo.',
+        overviewDescription: 'Una guia breve de ambos tipos de matriz',
+      }
+    : {
+        loadingRatings: 'Loading ratings matrix...',
+        loadingSimilarity: 'Loading similarity matrix...',
+        errorRatings: 'Failed to load the ratings matrix.',
+        errorSimilarity: 'Failed to load the similarity matrix.',
+        similarityTitle: 'About the Similarity Matrix',
+        similarityDescription: 'How to interpret the values in this table',
+        similarityBody:
+          'Each cell S[i][j] holds the cosine similarity between user i and user j, computed from their respective rating vectors. Values range from 0.00 (no overlapping taste) to 1.00 (identical taste profile). The diagonal is always 1.00 because every user is perfectly similar to themselves. Darker indigo cells indicate stronger similarity and contribute more weight to the collaborative filtering prediction step.',
+        overviewDescription: 'A brief guide to both matrix types',
+      }
 
   const {
     data: ratingMatrix,
@@ -52,8 +76,8 @@ export default function MatrixViewPage() {
         <LoadingSpinner
           message={
             activeTab === 'ratings'
-              ? 'Loading ratings matrix…'
-              : 'Loading similarity matrix…'
+              ? copy.loadingRatings
+              : copy.loadingSimilarity
           }
         />
       )}
@@ -61,7 +85,9 @@ export default function MatrixViewPage() {
       {isError && (
         <div className="rounded-xl border border-red-800 bg-red-900/20 px-5 py-4 mb-6">
           <p className="text-sm text-red-400">
-            Failed to load the {activeTab === 'ratings' ? 'ratings' : 'similarity'} matrix.
+            {activeTab === 'ratings'
+              ? copy.errorRatings
+              : copy.errorSimilarity}
           </p>
         </div>
       )}
@@ -77,21 +103,11 @@ export default function MatrixViewPage() {
         <div className="flex flex-col gap-6">
           <SimilarityMatrixTable matrix={similarityMatrix} />
           <Card
-            title="About the Similarity Matrix"
-            description="How to interpret the values in this table"
+            title={copy.similarityTitle}
+            description={copy.similarityDescription}
           >
             <p className="text-sm text-slate-300 leading-relaxed">
-              Each cell S[i][j] holds the{' '}
-              <strong className="text-slate-100">cosine similarity</strong> between user{' '}
-              <em>i</em> and user <em>j</em>, computed from their respective rating vectors.
-              Values range from{' '}
-              <span className="text-slate-200 font-medium">0.00</span> (no overlapping taste)
-              to{' '}
-              <span className="text-indigo-300 font-medium">1.00</span> (identical taste profile).
-              The diagonal is always <span className="text-indigo-300 font-medium">1.00</span>{' '}
-              because every user is perfectly similar to themselves.
-              Darker indigo cells indicate stronger similarity and contribute more weight
-              to the collaborative filtering prediction step.
+              {copy.similarityBody}
             </p>
           </Card>
         </div>
@@ -100,7 +116,7 @@ export default function MatrixViewPage() {
       <div className="mt-8">
         <Card
           title={t('matrix_overview_title')}
-          description="A brief guide to both matrix types"
+          description={copy.overviewDescription}
         >
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
             <div>

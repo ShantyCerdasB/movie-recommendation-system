@@ -4,9 +4,10 @@
  */
 import { Star } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Card } from '../../shared/components/ui/Card'
 import { EmptyState } from '../../shared/components/EmptyState'
-import type { RatingDto, MovieDto } from '../../types'
+import { Card } from '../../shared/components/ui/Card'
+import { localizeGenreList, localizeMovieTitle } from '../../shared/utils'
+import type { MovieDto, RatingDto } from '../../types'
 
 /** Props accepted by the {@link UserRatingsList} component. */
 interface UserRatingsListProps {
@@ -24,7 +25,10 @@ interface UserRatingsListProps {
  * @param props - {@link UserRatingsListProps}
  */
 export function UserRatingsList({ ratings, movies }: UserRatingsListProps) {
-  const { t } = useTranslation('common')
+  const { t, i18n } = useTranslation('common')
+  const language = i18n.resolvedLanguage ?? i18n.language
+  const unknownMovieLabel = (movieId: RatingDto['movieId']) =>
+    language.startsWith('es') ? `Pelicula #${movieId}` : `Movie #${movieId}`
 
   if (ratings.length === 0) {
     return (
@@ -36,7 +40,7 @@ export function UserRatingsList({ ratings, movies }: UserRatingsListProps) {
     )
   }
 
-  const movieMap = new Map(movies.map((m) => [m.id, m]))
+  const movieMap = new Map(movies.map((movie) => [movie.id, movie]))
 
   return (
     <Card title={t('ratings_title')} description={t('ratings_desc')}>
@@ -58,13 +62,16 @@ export function UserRatingsList({ ratings, movies }: UserRatingsListProps) {
           <tbody className="divide-y divide-slate-800">
             {ratings.map((rating) => {
               const movie = movieMap.get(rating.movieId)
+
               return (
                 <tr key={rating.id} className="hover:bg-slate-800/50 transition-colors">
                   <td className="py-3 pr-4 font-medium text-slate-200">
-                    {movie?.title ?? `Movie #${rating.movieId}`}
+                    {movie
+                      ? localizeMovieTitle(movie.title, language)
+                      : unknownMovieLabel(rating.movieId)}
                   </td>
                   <td className="py-3 pr-4 text-slate-400">
-                    {movie?.genre ?? '—'}
+                    {movie ? localizeGenreList(movie.genre, language) : '-'}
                   </td>
                   <td className="py-3">
                     <div className="flex items-center gap-2">
@@ -72,12 +79,12 @@ export function UserRatingsList({ ratings, movies }: UserRatingsListProps) {
                         {rating.score}
                       </span>
                       <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
+                        {Array.from({ length: 5 }).map((_, index) => (
                           <Star
-                            key={i}
+                            key={index}
                             size={13}
                             className={
-                              i < rating.score
+                              index < rating.score
                                 ? 'text-amber-400 fill-amber-400'
                                 : 'text-slate-700'
                             }

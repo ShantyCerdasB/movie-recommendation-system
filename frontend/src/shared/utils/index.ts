@@ -3,3 +3,4 @@
  */
 export { cn } from './cn'
 export { formatScore, formatSimilarity, formatYear } from './formatters'
+export { localizeGenreList, localizeMovieDescription, localizeMovieTitle } from './movieLocalization'

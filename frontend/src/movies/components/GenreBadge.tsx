@@ -2,7 +2,9 @@
  * @fileoverview Genre-aware badge that maps known genre strings to
  * semantically meaningful color variants.
  */
+import { useTranslation } from 'react-i18next'
 import { Badge } from '../../shared/components/ui/Badge'
+import { localizeGenreList } from '../../shared/utils'
 import type { BadgeVariant } from './GenreBadge.types'
 
 /** Maps genre name strings to {@link BadgeVariant} color schemes. */
@@ -35,6 +37,11 @@ interface GenreBadgeProps {
  * @param props - {@link GenreBadgeProps}
  */
 export function GenreBadge({ genre }: GenreBadgeProps) {
+  const { i18n } = useTranslation()
   const variant = genreVariantMap[genre] ?? 'default'
-  return <Badge variant={variant}>{genre}</Badge>
+  return (
+    <Badge variant={variant}>
+      {localizeGenreList(genre, i18n.resolvedLanguage ?? i18n.language)}
+    </Badge>
+  )
 }

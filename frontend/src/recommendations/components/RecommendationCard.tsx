@@ -4,6 +4,7 @@
 import { Film } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Badge } from '../../shared/components/ui'
+import { localizeGenreList, localizeMovieTitle } from '../../shared/utils'
 import { RecommendationScore } from './RecommendationScore'
 import { SimilarityBadge } from './SimilarityBadge'
 import type { RecommendationDto } from '../../types'
@@ -24,9 +25,15 @@ interface RecommendationCardProps {
  * @param props - {@link RecommendationCardProps}
  */
 export function RecommendationCard({ recommendation, rank }: RecommendationCardProps) {
-  const { t } = useTranslation('common')
+  const { t, i18n } = useTranslation('common')
   const { movieTitle, genre, posterUrl, predictedScore, similarityWeight, explanation } =
     recommendation
+  const language = i18n.resolvedLanguage ?? i18n.language
+  const localizedTitle = localizeMovieTitle(movieTitle, language)
+  const localizedGenre = localizeGenreList(genre, language)
+  const posterAlt = language.startsWith('es')
+    ? `Poster de ${localizedTitle}`
+    : `${localizedTitle} poster`
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl shadow-md border-l-4 border-l-indigo-600 overflow-hidden">
@@ -43,7 +50,7 @@ export function RecommendationCard({ recommendation, rank }: RecommendationCardP
           {posterUrl ? (
             <img
               src={posterUrl}
-              alt={`${movieTitle} poster`}
+              alt={posterAlt}
               className="w-full h-full object-cover"
               onError={(e) => {
                 const target = e.currentTarget
@@ -62,9 +69,9 @@ export function RecommendationCard({ recommendation, rank }: RecommendationCardP
         {/* Content */}
         <div className="flex-1 min-w-0 flex flex-col gap-2">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="text-sm font-semibold text-slate-100 leading-snug">{movieTitle}</h3>
+            <h3 className="text-sm font-semibold text-slate-100 leading-snug">{localizedTitle}</h3>
             <Badge variant="info" className="shrink-0">
-              {genre}
+              {localizedGenre}
             </Badge>
           </div>
 

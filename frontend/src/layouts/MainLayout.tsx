@@ -6,6 +6,7 @@
 import { Outlet, NavLink } from 'react-router-dom'
 import { Film, Users, Star, Grid, BookOpen } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { GlobalApiLoader } from '../shared/components'
 import Navbar from './Navbar'
 
 /** A single sidebar navigation entry. */
@@ -34,6 +35,7 @@ export default function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-950">
       <Navbar />
+      <GlobalApiLoader />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
