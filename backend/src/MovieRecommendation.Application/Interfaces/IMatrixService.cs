@@ -3,7 +3,7 @@ using MovieRecommendation.Application.DTOs;
 namespace MovieRecommendation.Application.Interfaces;
 
 /// <summary>
-/// Defines application-level operations for exposing the raw linear-algebra
+/// Defines application-level operations for exposing the raw linear-algebra 
 /// matrices used by the recommendation engine.
 /// These endpoints are intended for academic visualisation and inspection.
 /// </summary>

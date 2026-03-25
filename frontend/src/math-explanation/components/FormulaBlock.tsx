@@ -1,6 +1,6 @@
 /**
  * @fileoverview Monospace formula display block used to present mathematical
- * notation in a visually distinct, code-like container.
+ * notation in a visually distinct, code-like container.  
  */
 
 /** Props accepted by the {@link FormulaBlock} component. */

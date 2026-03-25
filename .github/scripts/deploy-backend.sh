@@ -16,7 +16,13 @@ ECR_REGISTRY="${ECR_REPOSITORY_URI%%/*}"
 aws ecr get-login-password --region "${AWS_REGION:-us-east-2}" | docker login --username AWS --password-stdin "$ECR_REGISTRY"
 
 echo "Building backend image..."
-docker build -t "$ECR_REPOSITORY_URI:latest" backend
+docker buildx build \
+  --platform linux/amd64 \
+  --provenance=false \
+  --sbom=false \
+  --load \
+  -t "$ECR_REPOSITORY_URI:latest" \
+  backend
 
 echo "Pushing backend image..."
 docker push "$ECR_REPOSITORY_URI:latest"
