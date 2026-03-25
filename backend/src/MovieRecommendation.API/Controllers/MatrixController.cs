@@ -9,7 +9,7 @@ namespace MovieRecommendation.API.Controllers;
 /// for academic inspection and visualisation.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("v1/[controller]")]
 public sealed class MatrixController : ControllerBase
 {
     private readonly IMatrixService _matrixService;

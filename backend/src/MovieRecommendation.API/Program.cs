@@ -38,7 +38,7 @@ var app = builder.Build();
 app.UseSwaggerDocumentation();
 app.UseCors("AllowAll");
 app.UseAuthorization();
-app.MapGet("/health", () => Results.Ok(new
+app.MapGet("/v1/health", () => Results.Ok(new
 {
     status = "ok",
     service = "movie-recommendation-api"

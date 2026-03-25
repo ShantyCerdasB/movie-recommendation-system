@@ -8,7 +8,7 @@ namespace MovieRecommendation.API.Controllers;
 /// Exposes endpoints for querying and submitting movie ratings.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("v1/[controller]")]
 public sealed class RatingsController : ControllerBase
 {
     private readonly IRatingService _ratingService;

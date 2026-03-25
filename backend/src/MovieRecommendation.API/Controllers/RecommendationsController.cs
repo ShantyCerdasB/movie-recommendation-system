@@ -9,7 +9,7 @@ namespace MovieRecommendation.API.Controllers;
 /// Exposes the collaborative filtering recommendation engine as an HTTP endpoint.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("v1/[controller]")]
 public sealed class RecommendationsController : ControllerBase
 {
     private readonly IRecommendationService _recommendationService;

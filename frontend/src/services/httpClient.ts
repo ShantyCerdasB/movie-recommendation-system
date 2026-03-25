@@ -4,7 +4,7 @@
  * are deserialized as JSON. Non-2xx responses are converted to thrown errors.
  */
 
-const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
+const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? '/v1'
 
 /**
  * Constructs a full URL from the given path and sends a GET request.

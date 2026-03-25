@@ -62,7 +62,7 @@ npm run dev
 
 The app opens at **http://localhost:5173**
 
-The Vite dev server proxies `/api` requests to `http://localhost:5000`, so both services must run simultaneously.
+The Vite dev server proxies `/v1` requests to `http://localhost:5000`, so both services must run simultaneously.
 
 ---
 
@@ -70,16 +70,16 @@ The Vite dev server proxies `/api` requests to `http://localhost:5000`, so both 
 
 | Method | Route | Description |
 |---|---|---|
-| GET | `/api/movies` | List all movies |
-| GET | `/api/movies/{id}` | Get a single movie |
-| GET | `/api/users` | List all users |
-| GET | `/api/users/{id}` | Get a single user |
-| GET | `/api/ratings` | List all ratings |
-| GET | `/api/ratings/user/{userId}` | Get ratings for a user |
-| POST | `/api/ratings` | Submit a new rating |
-| GET | `/api/recommendations/{userId}?topN=5` | Get recommendations for a user |
-| GET | `/api/matrix/ratings` | Get the full user-movie rating matrix |
-| GET | `/api/matrix/similarity` | Get the cosine similarity matrix |
+| GET | `/v1/movies` | List all movies |
+| GET | `/v1/movies/{id}` | Get a single movie |
+| GET | `/v1/users` | List all users |
+| GET | `/v1/users/{id}` | Get a single user |
+| GET | `/v1/ratings` | List all ratings |
+| GET | `/v1/ratings/user/{userId}` | Get ratings for a user |
+| POST | `/v1/ratings` | Submit a new rating |
+| GET | `/v1/recommendations/{userId}?topN=5` | Get recommendations for a user |
+| GET | `/v1/matrix/ratings` | Get the full user-movie rating matrix |
+| GET | `/v1/matrix/similarity` | Get the cosine similarity matrix |
 
 ---
 

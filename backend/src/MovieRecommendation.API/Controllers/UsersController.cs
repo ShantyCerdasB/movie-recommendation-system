@@ -8,7 +8,7 @@ namespace MovieRecommendation.API.Controllers;
 /// Exposes read-only endpoints for the registered user list.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("v1/[controller]")]
 public sealed class UsersController : ControllerBase
 {
     private readonly IUserService _userService;

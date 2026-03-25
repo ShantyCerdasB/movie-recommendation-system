@@ -107,7 +107,7 @@ jobs:
 
       - name: Smoke test
         run: |
-          HEALTH_URL="${API_GATEWAY_URL%/}/health"
+          HEALTH_URL="${API_GATEWAY_URL%/}/v1/health"
           CODE=$(curl -sS -o /tmp/health.txt -w '%{http_code}' "$HEALTH_URL" || echo "000")
           if [ "$CODE" != "200" ]; then
             cat /tmp/health.txt || true

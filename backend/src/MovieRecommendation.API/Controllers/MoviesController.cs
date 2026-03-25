@@ -8,7 +8,7 @@ namespace MovieRecommendation.API.Controllers;
 /// Exposes read-only endpoints for the movie catalogue.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("v1/[controller]")]
 public sealed class MoviesController : ControllerBase
 {
     private readonly IMovieService _movieService;
